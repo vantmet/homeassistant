@@ -1,0 +1,230 @@
+- id: '1764260000682'
+  alias: Front room lamp
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - sun.sun
+    from: above_horizon
+    to: below_horizon
+  conditions: []
+  actions:
+  - action: light.turn_on
+    metadata: {}
+    data: {}
+    target:
+      device_id: 4ac177787aea5756d3456cda4d9cca30
+  mode: single
+- id: '1777762408205'
+  alias: Solcast Update
+  description: ''
+  triggers:
+  - trigger: time_pattern
+    hours: /4
+  conditions: []
+  actions:
+  - action: solcast_solar.update_forecasts
+    metadata: {}
+    data: {}
+  mode: single
+- id: predbat_requested_mode_action
+  alias: "Predbat Requested Mode Action"
+  description: "Acts as a mapper for the input_select.predbat_requested_mode to the select.sigen_plant_remote_ems_control_mode"
+  mode: restart
+  triggers:
+    - trigger: state
+      entity_id:
+        - input_select.predbat_requested_mode
+    # Re-apply the mode after a Home Assistant restart, and when Remote EMS is switched back on (by you,
+    # or after another service turned it off), as the plant may be in a different mode by then.
+    # Without the restart trigger, a restart at the end of a force export can leave the plant on
+    # "Command Discharging" if Predbat already wants "Demand": Predbat sees nothing to change, writes
+    # nothing, and the battery keeps exporting past its target.
+    - trigger: homeassistant
+      event: start
+    - trigger: state
+      entity_id:
+        - switch.sigen_plant_remote_ems_controlled_by_home_assistant
+      from: "off"
+      to: "on"
+  conditions: []
+  actions:
+    # After a restart, give the Sigenergy integration time to load before writing to it
+    - wait_template: >-
+        {{ states('select.sigen_plant_remote_ems_control_mode') not in ['unknown', 'unavailable']
+           and states('sensor.sigen_plant_battery_state_of_charge') | is_number }}
+      timeout: "00:05:00"
+      continue_on_timeout: true
+    - action: select.select_option
+      metadata: {}
+      target:
+        entity_id: select.sigen_plant_remote_ems_control_mode
+      data:
+        # Rendered as a single Jinja expression (not a folded if/elif block) so there's no
+        # embedded literal newline/whitespace in the result - select.select_option requires an
+        # exact match against the target entity's options list.
+        option: >-
+          {{ "Maximum Self Consumption" if is_state('input_select.predbat_requested_mode', "Demand")
+             else "Command Charging (PV First)" if is_state('input_select.predbat_requested_mode', "Charging")
+             else "Maximum Self Consumption" if is_state('input_select.predbat_requested_mode', "Freeze Charging")
+             else "Command Discharging (PV First)" if is_state('input_select.predbat_requested_mode', "Discharging")
+             else "Maximum Self Consumption" }}
+    - choose:
+        # Freeze Charging
+        # Docs:
+        #  Freeze charging - The battery is charging but the current battery level (SoC) is frozen (held). Think of it
+        #  as a charge to the current battery level. The grid or solar covers any house load. If there is a shortfall of
+        #  Solar power to meet house load, the excess house load is met from grid import, but if there is excess Solar
+        #  power above the house load, the excess solar will be used to charge the battery
+        # In Sigenergy, this is effectively "self consumption" mode with discharging prohibited
+        #
+        # discharge_cut_off_state_of_charge is pinned once here, to current SoC minus a small
+        # margin, not a hardcoded value and not continuously re-pinned. Sigenergy has confirmed a
+        # firmware bug: if this is set above current SoC, the inverter actively imports from grid
+        # to reach it - even if grid_import_limitation is set to 0 - so the target must never sit
+        # above SoC. Setting it once, fixed, is what actually implements "frozen": any real deficit
+        # against that fixed point (house load, or even the inverter's own standby losses) gets
+        # corrected by grid import back up to the target, rather than the target chasing SoC
+        # downward and never enforcing anything. The small margin exists only to stop ordinary
+        # sensor-reading noise around the target from triggering a real (if tiny) grid import to
+        # "correct" a fluctuation that was never a real deficit - see the note after this
+        # automation for the full reasoning.
+        - conditions:
+            - condition: state
+              entity_id: input_select.predbat_requested_mode
+              state: "Freeze Charging"
+          sequence:
+            - action: number.set_value
+              target:
+                entity_id: number.sigen_plant_ess_charge_cut_off_state_of_charge
+              data:
+                value: 100
+            - action: number.set_value
+              target:
+                entity_id: number.sigen_plant_ess_discharge_cut_off_state_of_charge
+              data_template:
+                # If SoC can't be read this falls back to 0 (no discharge block) - never to a high
+                # value, which would trigger the forced-import bug described above
+                value: "{{ [(states('sensor.sigen_plant_battery_state_of_charge') | float(0)) - 0.25, 0] | max }}"
+        # grid_import_limitation is deliberately not set to 0 in either freeze mode - see the note
+        # after these automations.
+        # Freeze Discharging
+        # Docs:
+        #  Freeze exporting (mapped to Freeze Discharging in sigenergy_sigenstor.yaml) - The battery is in demand mode,
+        #  but with charging disabled. The battery or solar covers the house load. As charging is disabled, if there is
+        #  excess solar generated, the current SoC level will be held and the excess solar will be exported. If there is
+        #  a shortfall of generated solar power to meet the house load, the battery will discharge to meet the extra load.
+        # In Sigenergy, this is effectively "self consumption" mode with charging prohibited
+        #
+        # charge_cut_off_state_of_charge is left as a simple hardcoded 0 here, unlike the
+        # discharge cut-off above. A mirrored bug (SoC above charge_cut_off forcing extra
+        # discharge/export) was considered - 0 is always below current SoC by the same
+        # structural shape as the confirmed discharge-side bug - but it was never
+        # vendor-confirmed, and 0 has been in real use across the wider community template
+        # for months without anyone reporting the kind of dramatic, easily-noticed symptom
+        # a real mirrored bug would produce. Kept simple rather than adding unproven complexity.
+        - conditions:
+            - condition: state
+              entity_id: input_select.predbat_requested_mode
+              state: "Freeze Discharging"
+          sequence:
+            - action: number.set_value
+              target:
+                entity_id: number.sigen_plant_ess_charge_cut_off_state_of_charge
+              data:
+                value: 0
+            - action: number.set_value
+              target:
+                entity_id: number.sigen_plant_ess_discharge_cut_off_state_of_charge
+              data:
+                value: 0
+        # Any other mode: clear the freeze cut-offs and restore the import limit
+        - conditions:
+          - condition: not
+            conditions:
+              - condition: state
+                entity_id: input_select.predbat_requested_mode
+                state: "Freeze Charging"
+              - condition: state
+                entity_id: input_select.predbat_requested_mode
+                state: "Freeze Discharging"
+          sequence:
+            - action: number.set_value
+              target:
+                entity_id: number.sigen_plant_ess_charge_cut_off_state_of_charge
+              data:
+                value: 100
+            - action: number.set_value
+              target:
+                entity_id: number.sigen_plant_ess_discharge_cut_off_state_of_charge
+              data:
+                value: 0
+            - action: number.set_value
+              target:
+                entity_id: number.sigen_plant_grid_import_limitation
+              data:
+                value: 100
+
+- id: automation_sigen_ess_max_charging_limit_input_number_action
+  alias: Predbat max charging limit action
+  description: Mapper from input_number.charge_rate to number sigen_plant_ess_max_charging_limit
+  triggers:
+  - trigger: state
+    entity_id: input_number.charge_rate
+  # Re-apply the limit after a Home Assistant restart, and when Remote EMS is switched back on, as for
+  # the mode automation above. Otherwise a write lost to a restart, or a limit another service changed
+  # while Remote EMS was off, is never corrected, because Predbat sees the input number already at
+  # the value it wants
+  - trigger: homeassistant
+    event: start
+  - trigger: state
+    entity_id: switch.sigen_plant_remote_ems_controlled_by_home_assistant
+    from: "off"
+    to: "on"
+  conditions:
+  # Skip quietly, rather than fail with a template error, while the input number is briefly
+  # unavailable. A real 0 W rate (Predbat holding the battery) is re-applied like any other
+  - condition: template
+    value_template: "{{ states('input_number.charge_rate') | is_number }}"
+  actions:
+  # After a restart, give the Sigenergy integration time to load; give up rather than write to an unavailable entity
+  - wait_template: "{{ states('number.sigen_plant_ess_max_charging_limit') not in ['unknown', 'unavailable'] }}"
+    timeout: "00:05:00"
+    continue_on_timeout: false
+  - action: number.set_value
+    target:
+      entity_id: number.sigen_plant_ess_max_charging_limit
+    data:
+      # The plant-level rated power caps the request; if that sensor is briefly unavailable the
+      # 99 fallback means no cap, rather than a template error and no write at all
+      value: '{{ [(states(''input_number.charge_rate'') | float / 1000) | round(2),
+        states(''sensor.sigen_plant_ess_rated_charging_power'') | float(99)] | min}}'
+  # restart, so a rate change that arrives during the wait replaces the one waiting
+  mode: restart
+
+- id: automation_sigen_ess_max_discharging_limit_input_number_action
+  alias: Predbat max discharging limit action
+  description: Mapper from input_number.discharge_rate to number.sigen_plant_ess_max_discharging_limit
+  triggers:
+  - trigger: state
+    entity_id: input_number.discharge_rate
+  - trigger: homeassistant
+    event: start
+  - trigger: state
+    entity_id: switch.sigen_plant_remote_ems_controlled_by_home_assistant
+    from: "off"
+    to: "on"
+  conditions:
+  - condition: template
+    value_template: "{{ states('input_number.discharge_rate') | is_number }}"
+  actions:
+  - wait_template: "{{ states('number.sigen_plant_ess_max_discharging_limit') not in ['unknown', 'unavailable'] }}"
+    timeout: "00:05:00"
+    continue_on_timeout: false
+  - action: number.set_value
+    target:
+      entity_id: number.sigen_plant_ess_max_discharging_limit
+    data:
+      value: '{{ [(states(''input_number.discharge_rate'') | float / 1000) | round(2),
+        states(''sensor.sigen_plant_ess_rated_discharging_power'') | float(99)] | min}}'
+  mode: restart

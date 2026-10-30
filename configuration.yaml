@@ -40,3 +40,13 @@ input_number:
     step: 1
     mode: box
     unit_of_measurement: W
+prometheus:
+  namespace: hass
+  filter:
+    include_domains:
+      - sensor
+      - binary_sensor
+      - light
+      - switch
+      - climate
+

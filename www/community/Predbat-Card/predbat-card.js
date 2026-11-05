@@ -3,7 +3,7 @@
  * https://github.com/mimikm/Predbat-Card
  * MIT License
  */
-const CARD_VERSION = "0.4.6";
+const CARD_VERSION = "0.4.9";
 const CARD_TAG = "predbat-card";
 const EDITOR_TAG = "predbat-card-editor";
 
@@ -149,6 +149,10 @@ const TRANSLATIONS = {
     st_freeze_export: "Freeze export",
     st_hold_export: "Hold export",
     st_demand: "Demand",
+    st_mixed_charge_export: "Charge + Export (mixed)",
+    st_mixed_charge_export_untimed: "Charge + Export (mixed; transition time unspecified)",
+    st_mixed_charge_export_action: "Charge + Export (mixed slot)",
+    st_hold_for_car: "Hold for car",
     col_time: "Time",
     col_state: "State",
     col_import: "Imp",
@@ -234,6 +238,7 @@ const TRANSLATIONS = {
     ed_show_table: "Full plan table (toggle)",
     ed_show_base: "Baseline line on chart",
     ed_show_rates: "Import rate on chart",
+    ed_show_export_rate: "Export rate on chart",
     ed_hours: "Hours to show",
     ed_max_actions: "Max upcoming actions",
     ed_capacity: "Battery capacity override (kWh, optional)",
@@ -400,6 +405,10 @@ const TRANSLATIONS = {
     st_freeze_export: "Zamrożone oddawanie",
     st_hold_export: "Wstrzymane oddawanie",
     st_demand: "Zużycie",
+    st_mixed_charge_export: "Ładowanie + oddawanie (stan mieszany)",
+    st_mixed_charge_export_untimed: "Ładowanie + oddawanie (stan mieszany; nieznany czas przełączenia)",
+    st_mixed_charge_export_action: "Ładowanie + oddawanie (mieszany przedział)",
+    st_hold_for_car: "Zachowanie energii dla samochodu",
     col_time: "Czas",
     col_state: "Stan",
     col_import: "Pob.",
@@ -490,6 +499,7 @@ const TRANSLATIONS = {
     ed_show_table: "Pełna tabela planu (przełącznik)",
     ed_show_base: "Linia bazowa na wykresie",
     ed_show_rates: "Cena poboru na wykresie",
+    ed_show_export_rate: "Cena oddawania na wykresie",
     ed_hours: "Liczba godzin",
     ed_max_actions: "Maks. liczba działań",
     ed_capacity: "Pojemność baterii (kWh, opcjonalnie)",
@@ -656,6 +666,10 @@ const TRANSLATIONS = {
     st_freeze_export: "Exportación congelada",
     st_hold_export: "Mantener exportación",
     st_demand: "Demanda",
+    st_mixed_charge_export: "Carga + exportación (mixto)",
+    st_mixed_charge_export_untimed: "Carga + exportación (mixto; hora de transición no especificada)",
+    st_mixed_charge_export_action: "Carga + exportación (franja mixta)",
+    st_hold_for_car: "Reserva para el coche",
     col_time: "Hora",
     col_state: "Estado",
     col_import: "Imp",
@@ -741,6 +755,7 @@ const TRANSLATIONS = {
     ed_show_table: "Tabla completa del plan (desplegable)",
     ed_show_base: "Línea base en el gráfico",
     ed_show_rates: "Precio de importación en el gráfico",
+    ed_show_export_rate: "Precio de exportación en el gráfico",
     ed_hours: "Horas a mostrar",
     ed_max_actions: "Máx. acciones próximas",
     ed_capacity: "Capacidad de batería (kWh, opcional)",
@@ -768,6 +783,263 @@ const TRANSLATIONS = {
     e_export_start: "Inicio de la próxima exportación",
     e_export_end: "Fin de la próxima exportación",
     e_export_limit: "Objetivo de exportación (%)",
+  },
+  de: {
+    dq_unknown_n: "{n} Leistung unbekannt",
+    dq_l_unknown: "Leistung unbekannt",
+    dq_hint_unknown: "Der Gesamtverbrauch blieb flach, aber es ist kein Leistungssensor definiert. Die Karte kann nicht erkennen, ob Predbat diesen gefüllt hat. Setze load_power auf den Sensor in deiner Predbat apps.yaml.",
+    dq_missing: "Nicht gefunden: {e}",
+    dq_nohist: "Kein Verlauf: {e}",
+    dq_no_power: "No load power sensor, so the card can’t tell which gaps Predbat filled. Set load_power to the sensor in your apps.yaml.",
+    dq_no_power: "Kein Leistungssensor vorhanden. Die Karte kann nicht sagen, welche Lücken Predbat gefüllt hat. Setze load_power auf den Sensor in deiner apps.yaml.",
+    dq_auto: "automatisch gefunden ({v})",
+    ed_auto_found_type: "automatisch erkannt, {v}",
+    sec_look: "Aussehen",
+    sec_sections: "Abschnitte",
+    sec_charts: "Diagramme",
+    sec_car: "Auto und Warmwasser",
+    sec_dq: "Verbrauchsdaten-Alarm",
+    sec_advanced: "Erweitert: Predbat Entitäten",
+    ed_load_sensors: "Lastsensoren (dieselben wie load_today und load_power in deiner Predbat apps.yaml; leer lassen für automatische Suche)",
+    grp_plan: "Status, Batterie und Plan",
+    grp_costs: "Kosten, Tarife und Energie",
+    grp_car: "Auto (Predbat)",
+    grp_iboost: "Warmwasser (iBoost)",
+    car_manual_marker: "Predbat manueller SoC",
+    car_pb_thinks: "Predbat schätzt {v}%",
+    car_pb_empty: "Predbat denkt, es ist leer",
+    car_starts: "Startet um {v}",
+    car_unplugged: "Nicht eingesteckt",
+    car_plugged: "eingesteckt",
+    car_src_car: "Ladestand vom Auto",
+    car_src_manual: "Ladestand von Predbats manuellem SoC",
+    car_src_predbat: "Ladestand aus Predbats Vorhersage",
+    car_target: "Ziel {v}%",
+    car_mismatch: "{n}: Predbat plant ab {p}%, aber das Auto meldet {c}%. Überprüfe car_charging_soc in deiner Predbat apps.yaml.",
+    car_empty_hint: "{n}: Predbat denkt, die Batterie ist leer. Setze car_charging_soc in deiner Predbat apps.yaml oder aktiviere den manuellen SoC in Predbat.",
+    car_now_marker: "Eigene Messung des Autos",
+    car_iog: "Octopus Intelligent",
+    car_smart_on: "Smart Plan",
+    car_smart_off: "Lädt nach Zeitreihenfolge",
+    car_max_price: "Max {v}",
+    car_from_batt_on: "Kann Hausbatterie nutzen",
+    car_from_batt_off: "Nicht aus Hausbatterie",
+    car_cost_today: "Heute {v}",
+    car_cost_yesterday: "Gestern {v}",
+    ed_car_sensors: "Eigene Sensoren deines Autos (optional, einer pro Auto)",
+    ed_car_battery_size: "Auto-Batteriekapazität, kWh (optional, kommagetrennt pro Auto)",
+    e_car_soc_sensor: "Auto Ladestand (% oder kWh)",
+    e_car_limit_sensor: "Auto Ladelimit / Ziel",
+    e_car_plugged_sensor: "Auto eingesteckt",
+    e_car_charging_sensor: "Auto lädt jetzt (An/Aus oder Leistung)",
+    e_car_start: "Auto Lade-Startzeit",
+    e_car_power: "Auto Ladeleistung",
+    e_car_cost_today: "Auto Kosten heute",
+    e_car_cost_yesterday: "Auto Kosten gestern",
+    e_car_manual_soc: "Schalter für manuellen Auto-SoC",
+    e_car_manual_soc_kwh: "Manueller Auto-SoC (kWh)",
+    e_car_rate: "Auto Ladegeschwindigkeit",
+    e_car_plan_smart: "Auto smart Plan",
+    e_car_max_price: "Auto Maximalpreis",
+    e_car_from_battery: "Auto darf Hausbatterie nutzen",
+    e_octopus_intelligent: "Octopus Intelligent Laden",
+    car: "Auto",
+    car_n: "Auto {n}",
+    car_chart: "Auto lädt",
+    tab_car: "Auto",
+    car_charging: "Auto lädt",
+    car_charging_now: "Lädt jetzt",
+    car_live: "lädt",
+    car_none: "Keine Ladung geplant",
+    car_none_found: "Kein Auto in Predbat gefunden.",
+    car_charge_kwh: "Lade {v} kWh",
+    car_ready_by: "Bereit um {v}",
+    iboost: "Warmwasser",
+    iboost_on: "Heizt jetzt",
+    iboost_on_solar: "Heizt jetzt mit Solar",
+    iboost_full: "Tageslimit erreicht",
+    iboost_none: "Nichts geplant",
+    iboost_heat: "Warmwasser +{v} kWh",
+    next: "Nächste",
+    col_car: "Auto",
+    col_iboost: "iBoost",
+    show_auto: "Automatisch (wenn von Predbat genutzt)",
+    show_on: "Immer",
+    show_off: "Nie",
+    ed_show_car: "Auto",
+    ed_show_iboost: "iBoost (Warmwasser)",
+    ed_show_car_chart: "Autolade-Diagramm",
+    ed_car_names: "Autonamen (kommagetrennt)",
+    ed_optional: "{n} optional",
+    e_car_slot: "Autolade-Zeitfenster",
+    e_car_soc: "Auto SoC-Vorhersage",
+    e_car_plan_time: "Auto Fertigstellungszeit",
+    e_iboost_today: "iBoost Energie heute",
+    e_iboost_max: "iBoost Tageslimit",
+    e_iboost_active: "iBoost aktiv",
+    e_iboost_enable: "iBoost aktiviert",
+    ed_auto_none: "nicht gefunden, setze den Sensor aus der apps.yaml",
+    ed_auto_found: "automatisch erkannt",
+    dq_no_source: "Keine Lastsensoren gefunden. Setze load_today und load_power auf dieselben Sensoren wie in deiner Predbat apps.yaml.",
+    dq_checked: "Geprüft: {e}",
+    dq_all_filled: "alle von Predbat gefüllt",
+    dq_recent: "{n} in den letzten 24 Std.",
+    title: "Predbat",
+    updated: "Aktualisiert {v}",
+    just_now: "gerade eben",
+    min_ago: "vor {n} Min.",
+    h_ago: "vor {n} Std.",
+    battery: "Batterie",
+    hours_left: "{n} Std. verbleibend",
+    now: "Jetzt",
+    import: "Netzbezug",
+    export: "Einspeisung",
+    cost_today: "Kosten heute",
+    plan_total: "Plan Gesamt {v}",
+    saved_yesterday: "Gestern gespart",
+    vs_baseline: "vs. eine günstige Ladung",
+    next_charge: "Nächste Ladung",
+    next_export: "Nächste Einspeisung",
+    none_planned: "Keine geplant",
+    target: "auf {v}%",
+    forecast: "Batterie-Vorhersage",
+    best: "Predbat Plan",
+    base: "Basislinie",
+    rate: "Bezugstarif",
+    reserve: "Reserve",
+    plan: "Plan",
+    upcoming: "Anstehende Aktionen",
+    no_actions: "Keine erzwungene Ladung oder Einspeisung in den nächsten {n} Std.",
+    show_full: "Vollständigen Plan zeigen",
+    hide_full: "Vollständigen Plan ausblenden",
+    today: "Heute",
+    tomorrow: "Morgen",
+    avg: "Schnitt {v}",
+    ends_at: "endet bei {v}%",
+    st_charge: "Laden",
+    st_hold_charge: "Halten",
+    st_freeze_charge: "Ladestopp",
+    st_export: "Einspeisen",
+    st_freeze_export: "Einspeisestopp",
+    st_hold_export: "Einspeisung halten",
+    st_demand: "Eigenverbrauch",
+    st_mixed_charge_export: "Laden + Einspeisen (gemischt)",
+    st_mixed_charge_export_untimed: "Laden + Einspeisen (gemischt; Übergangszeit nicht definiert)",
+    st_mixed_charge_export_action: "Laden + Einspeisen (gemischtes Zeitfenster)",
+    st_hold_for_car: "Für Auto reservieren",
+    col_time: "Zeit",
+    col_state: "Status",
+    col_import: "Bez.",
+    col_export: "Ein.",
+    col_pv: "PV",
+    col_load: "Last",
+    col_soc: "SoC",
+    col_cost: "Kosten",
+    error: "Predbat meldet einen Fehler",
+    no_plan: "Noch keine Plandaten. Überprüfe, ob {e} existiert.",
+    no_forecast: "Keine Vorhersagedaten in {e}",
+    missing: "Entität nicht gefunden: {e}",
+    manual: "Manuell",
+    // editor
+    ed_style: "Stil",
+    style_modern: "Modern",
+    style_glass: "Glas",
+    style_neon: "Neon",
+    style_minimal: "Minimalistisch",
+    style_native: "Home Assistant Standard",
+    style_terminal: "Terminal (Retro LCD)",
+    ed_theme_mode: "Hell / Dunkel",
+    mode_auto: "Home Assistant Design folgen",
+    mode_light: "Immer hell",
+    mode_dark: "Immer dunkel",
+    saving_today: "Heute gespart",
+    predicted: "Vorhergesagt",
+    yesterday_v: "gestern {v}",
+    forecast_today: "Vorhergesagt heute {v}",
+    e_base_metric: "Basisplan-Kosten",
+    grid_chart: "Netzbezug & Einspeisung",
+    rates_chart: "Stromtarife",
+    tab_battery: "Batterie",
+    tab_grid: "Netz",
+    tab_rates: "Tarife",
+    export_rate: "Einspeisetarif",
+    ed_show_grid_chart: "Netzbezug/Einspeisung Diagramm",
+    ed_show_rates_chart: "Stromtarif-Diagramm",
+    ed_chart_layout: "Layout der Diagramme",
+    layout_tabs: "Registerkarten (ein Diagramm gleichzeitig)",
+    layout_stacked: "Untereinander (alle Diagramme)",
+    ed_font_scale: "Textgröße",
+    e_export_energy: "Vorhergesagte Einspeiseenergie",
+    e_import_energy: "Vorhergesagte Bezugsenergie",
+    missing_n: "{n} Predbat Entitäten nicht gefunden",
+    missing_hint: "Öffne den Karteneditor, um die Entitätsnamen zu prüfen oder das Präfix zu ändern.",
+    no_raw: "{e} hat keine Plandaten (das „raw“-Attribut). Aktualisiere Predbat auf eine neuere Version, um den Plan zu sehen.",
+    tab_data: "Daten",
+    dq_summary_one: "1 Phase ohne Last in den letzten {d} Tagen",
+    dq_title: "Lastdaten-Qualität",
+    dq_chip: "Lastdaten",
+    dq_summary: "{n} Phasen ohne Last in den letzten {d} Tagen",
+    dq_filled_n: "{n} von Predbat gefüllt",
+    dq_unfilled_n: "{n} nicht gefüllt",
+    dq_hint_filled: "Der Gesamtverbrauch blieb flach, während die Lastleistung eine Nutzung anzeigte. Predbat füllt dies aus der Lastleistung auf, es ist nichts zu tun.",
+    dq_hint_unfilled: "Der Gesamtverbrauch blieb flach und es gab keine Lastleistungsdaten. Predbat füllt dies mit dem durchschnittlichen Verbrauch, daher kann die Vorhersage ungenau sein.",
+    dq_more: "und {n} weitere",
+    dq_view: "Zeige {d}-Tage-Ansicht",
+    dq_note: "Gleiche Prüfung, die auch Predbat durchführt, basierend auf dem Home Assistant Verlauf.",
+    dq_good: "{v}% good over {d} days",
+    dq_l_ok: "Gut",
+    dq_l_filled: "Von Predbat gefüllt",
+    dq_l_unfilled: "Nicht gefüllt",
+    dq_l_nodata: "Kein Verlauf",
+    dq_loading: "Lade Verbrauchsverlauf…",
+    dq_error: "Verlauf konnte nicht geladen werden: {v}",
+    dq_no_history: "Kein Verlauf für {e}. Stelle sicher, dass diese Sensoren aufgezeichnet werden.",
+    dq_unsupported: "Verlauf ist hier nicht verfügbar.",
+    ed_show_data_quality: "Null-Last-Alarm (Lastdaten-Qualität)",
+    ed_dq_days: "Datenqualität Tage",
+    ed_dq_minutes: "Flache Last markieren nach",
+    e_load_today: "Last heute (kWh), wie in apps.yaml",
+    e_load_power: "Lastleistung, wie in apps.yaml",
+    ed_title: "Titel",
+    ed_prefix: "Predbat-Präfix",
+    ed_language: "Sprache",
+    ed_auto: "Automatisch (Home Assistant)",
+    ed_show_header: "Kopfzeile",
+    ed_show_overview: "Übersichts-Kacheln",
+    ed_show_chart: "Batterievorhersage-Diagramm",
+    ed_show_timeline: "Plan-Zeitachse",
+    ed_show_actions: "Anstehende Aktionen",
+    ed_show_table: "Vollständige Plan-Tabelle (Umschalter)",
+    ed_show_base: "Basislinie im Diagramm",
+    ed_show_rates: "Bezugstarif im Diagramm",
+    ed_show_export_rate: "Einspeisetarif im Diagramm",
+    ed_hours: "Stunden zum Anzeigen",
+    ed_max_actions: "Max. anstehende Aktionen",
+    ed_capacity: "Batteriekapazität Überschreibung (kWh, optional)",
+    ed_entities: "Predbat Entitäten",
+    ed_check: "Entitätsprüfung",
+    ed_found: "{n} von {t} Entitäten gefunden",
+    ed_reset: "Entitäten auf Standard zurücksetzen",
+    ed_sections: "Abschnitte",
+    e_status: "Status",
+    e_plan: "Plan (plan_html)",
+    e_mode: "Modus-Auswahl",
+    e_soc_now: "Batterie Ladestand jetzt (kWh)",
+    e_soc_best: "SoC Vorhersage — Bester Plan",
+    e_soc_base: "SoC Vorhersage — Basislinie",
+    e_inverter_config: "Wechselrichter-Konfig (Batteriegröße)",
+    e_hours_left: "Verbleibende Batteriestunden",
+    e_rates: "Bezugstarife",
+    e_rates_export: "Einspeisetarife",
+    e_cost_today: "Kosten heute",
+    e_best_metric: "Plan Gesamtkosten",
+    e_savings: "Ersparnis gestern",
+    e_charge_start: "Nächster Ladestart",
+    e_charge_end: "Nächstes Ladeende",
+    e_charge_limit: "Nächstes Ladeziel (%)",
+    e_export_start: "Nächster Einspeisestart",
+    e_export_end: "Nächstes Einspeiseende",
+    e_export_limit: "Nächstes Einspeiseziel (%)",
   },
 };
 
@@ -847,6 +1119,31 @@ Object.assign(TRANSLATIONS.es, {
   e_pv_now: "Previsión solar ahora", e_carbon_now: "Carbono de la red ahora", e_carbon_best: "Carbono previsto", e_carbon_today: "Carbono hoy",
   e_carbon_intensity: "Previsión de intensidad de carbono", e_pv_power: "Potencia solar ahora (todos los inversores)", e_battery_power: "Potencia de batería ahora (todos los inversores)",
 });
+Object.assign(TRANSLATIONS.de, {
+  tab_solar: "Solar", solar_chart: "Solar-Vorhersage", tab_carbon: "CO₂", carbon_chart: "CO₂-Intensität des Netzes",
+  pv_today_tile: "Solar heute", pv_left: "{v} kWh verbleibend", pv_tomorrow_v: "morgen {v}", pv_forecast: "Vorhersage",
+  pv_left_today: "Heute verbleibend", pv_in_plan: "Im Plan", pv_raw: "Vor Kalibrierung {v} kWh", pv_raw_short: "Vor Kalibrierung",
+  pv_from_plan: "Aus Predbats Plan – füge die Solarvorhersage-Sensoren für ganze Tage und den 10–90%-Bereich hinzu",
+  pv_none: "Keine Solar-Vorhersage gefunden ({e}).",
+  solar: "Solar", house_load: "Hausverbrauch", load_high: "Wenn Verbrauch hoch läuft",
+  carbon_tile: "Netz-CO₂", carbon_today_v: "heute {v} kg", carbon_so_far: "Heute bis jetzt", carbon_plan: "Plan",
+  carbon_cleanest: "Sauberste Stunde", carbon_none: "Keine CO₂-Daten. Aktiviere carbon_enable in Predbats apps.yaml.",
+  carbon_lvl_0: "Sehr niedrig", carbon_lvl_1: "Niedrig", carbon_lvl_2: "Moderat", carbon_lvl_3: "Hoch", carbon_lvl_4: "Sehr hoch", carbon_lvl_5: "Extrem",
+  inverters: "Wechselrichter", inverter_n: "Wechselrichter {n}", inv_charging: "Lädt {v}", inv_discharging: "Entlädt {v}", inv_idle: "Standby",
+  inv_all: "Alle", inv_none: "Keine Wechselrichtersensoren gefunden. Füge sie in den Karteneinstellungen unter Wechselrichter hinzu.",
+  inv_missing: "Predbat betreibt {n} Wechselrichter, aber die Karte kann deren Sensoren nicht finden. Füge sie in den Karteneinstellungen unter Wechselrichter hinzu, um jeden einzelnen zu sehen.",
+  sec_inverters: "Solar, CO₂ und Wechselrichter",
+  ed_show_solar: "Solar-Vorhersage (Registerkarte und Kachel)", ed_show_carbon: "CO₂-Intensität (Registerkarte und Kachel)",
+  ed_show_load_forecast: "Hausverbrauch im Netzdiagramm", ed_show_grid_pv: "Solar im Netzdiagramm",
+  ed_show_inverters: "Wechselrichter-Aufschlüsselung", ed_inverter_names: "Wechselrichternamen (kommagetrennt)",
+  ed_inverter_power_invert: "Batterieleistung ist beim Laden positiv", ed_inv_sensors: "Wechselrichtersensoren (optional, einer pro Wechselrichter)",
+  ed_inv_found: "{n} Wechselrichter gefunden", ed_inv_found_type: "{n} Wechselrichter gefunden ({v})",
+  e_inverter_soc: "Batterieladestand (%)", e_inverter_soc_kwh: "Batterieladestand (kWh)", e_inverter_capacity: "Batteriegröße (kWh)", e_inverter_battery_power: "Batterieleistung", e_inverter_pv_power: "Solarleistung",
+  grp_solar: "Solar-Vorhersage", grp_carbon: "CO₂-Intensität", grp_live: "Live-Gesamtsummen",
+  e_pv_today: "PV-Vorhersage heute", e_pv_tomorrow: "PV-Vorhersage morgen", e_pv_d2: "PV-Vorhersage Tag 3", e_pv_d3: "PV-Vorhersage Tag 4",
+  e_pv_now: "PV-Vorhersage jetzt", e_carbon_now: "Netz-CO₂ jetzt", e_carbon_best: "Geplantes CO₂", e_carbon_today: "CO₂ heute",
+  e_carbon_intensity: "CO₂-Intensitätsvorhersage", e_pv_power: "Solarleistung jetzt (alle Wechselrichter)", e_battery_power: "Batterieleistung jetzt (alle Wechselrichter)",
+});
 
 // layout editor
 Object.assign(TRANSLATIONS.en, {
@@ -879,10 +1176,47 @@ Object.assign(TRANSLATIONS.es, {
   lay_s_header: "Encabezado", lay_s_alerts: "Avisos", lay_s_overview: "Tarjetas resumen", lay_s_inverters: "Inversores", lay_s_charts: "Gráficos",
   lay_s_timeline: "Línea del plan", lay_s_actions: "Próximas acciones", lay_s_table: "Tabla completa del plan",
 });
+Object.assign(TRANSLATIONS.de, {
+  sec_layout: "Layout", lay_desktop: "Desktop", lay_phone: "Handy",
+  lay_hint: "Ziehe einen Block, um ihn zu verschieben. Er rastet an seinem Platz ein. Zieh ihn auf Ausgeblendet, um ihn auszublenden, und wieder zurück, um ihn anzuzeigen.",
+  lay_hidden: "Ausgeblendet", lay_hidden_empty: "Hierher ziehen zum Ausblenden", lay_off: "aus", lay_off_title: "In den Einstellungen oben ausgeschaltet",
+  lay_reset: "Layout zurücksetzen", lay_phone_none: "Noch kein Handy-Layout. Handys verwenden das Desktop-Layout.",
+  lay_phone_create: "Handy-Layout erstellen", lay_phone_copy: "Desktop-Layout kopieren", lay_phone_remove: "Handy-Layout entfernen",
+  lay_phone_bp: "Verwenden auf Bildschirmen schmaler als", lay_phone_hint: "Ordne die Karte für Handys an. Dein Desktop-Layout bleibt unverändert.",
+  lay_s_header: "Kopfzeile", lay_s_alerts: "Warnungen", lay_s_overview: "Übersichtskacheln", lay_s_inverters: "Wechselrichter", lay_s_charts: "Diagramme",
+  lay_s_timeline: "Plan-Zeitleiste", lay_s_actions: "Anstehende Aktionen", lay_s_table: "Vollständige Plantabelle",
+});
 
 Object.assign(TRANSLATIONS.en, { ed_inv_skip_unavailable: "ignored: unavailable", ed_inv_skip_gateway: "ignored: GivEnergy Gateway (totals)", ed_inv_skip_extra: "ignored: Predbat runs {n}" });
 Object.assign(TRANSLATIONS.pl, { ed_inv_skip_unavailable: "pominięty: niedostępny", ed_inv_skip_gateway: "pominięty: GivEnergy Gateway (sumy)", ed_inv_skip_extra: "pominięty: Predbat obsługuje {n}" });
 Object.assign(TRANSLATIONS.es, { ed_inv_skip_unavailable: "ignorado: no disponible", ed_inv_skip_gateway: "ignorado: GivEnergy Gateway (totales)", ed_inv_skip_extra: "ignorado: Predbat usa {n}" });
+Object.assign(TRANSLATIONS.de, { ed_inv_skip_unavailable: "ignoriert: nicht verfügbar", ed_inv_skip_gateway: "ignoriert: GivEnergy Gateway (Summen)", ed_inv_skip_extra: "ignoriert: Predbat steuert {n}" });
+
+Object.assign(TRANSLATIONS.en, {
+  pv_actual: "Actual", pv_vs_forecast: "vs {v} forecast so far", pv_actual_none: "No history for actual solar ({e}). Set your PV sensor under Solar sensors.",
+  ed_show_pv_actual: "Actual solar on the Solar chart", ed_next_include_hold: "Hold and freeze count as next charge/export",
+  ed_pv_sensors: "Solar sensors (optional)", e_pv_actual: "Actual solar (PV power or PV today)",
+});
+Object.assign(TRANSLATIONS.pl, {
+  pv_actual: "Rzeczywista", pv_vs_forecast: "wobec {v} z prognozy do teraz", pv_actual_none: "Brak historii produkcji PV ({e}). Ustaw czujnik PV w Czujnikach PV.",
+  ed_show_pv_actual: "Rzeczywista produkcja na wykresie PV", ed_next_include_hold: "Wstrzymanie i zamrożenie liczą się jako następne ładowanie/oddawanie",
+  ed_pv_sensors: "Czujniki PV (opcjonalnie)", e_pv_actual: "Rzeczywista produkcja (moc PV lub PV dziś)",
+});
+Object.assign(TRANSLATIONS.es, {
+  pv_actual: "Real", pv_vs_forecast: "frente a {v} previstos hasta ahora", pv_actual_none: "Sin historial de producción solar ({e}). Indica tu sensor solar en Sensores solares.",
+  ed_show_pv_actual: "Producción real en el gráfico solar", ed_next_include_hold: "Mantener y congelar cuentan como próxima carga/exportación",
+  ed_pv_sensors: "Sensores solares (opcional)", e_pv_actual: "Producción solar real (potencia o energía de hoy)",
+});
+Object.assign(TRANSLATIONS.de, {
+  pv_actual: "Tatsächlich", pv_vs_forecast: "vs. {v} aus Prognose bisher", pv_actual_none: "Kein Verlauf für reale Solarleistung ({e}). Setze deinen PV-Sensor unter Solarsensoren.",
+  ed_show_pv_actual: "Tatsächliche Solarleistung im Solar-Diagramm", ed_next_include_hold: "Halten und Stoppen zählen als nächste Ladung/Einspeisung",
+  ed_pv_sensors: "Solarsensoren (optional)", e_pv_actual: "Tatsächliche Solarleistung (PV-Leistung oder PV heute)",
+});
+
+Object.assign(TRANSLATIONS.en, { ed_merge_car_actions: "Join back-to-back car charging slots" });
+Object.assign(TRANSLATIONS.pl, { ed_merge_car_actions: "Łącz kolejne sloty ładowania samochodu" });
+Object.assign(TRANSLATIONS.es, { ed_merge_car_actions: "Unir franjas de carga del coche seguidas" });
+Object.assign(TRANSLATIONS.de, { ed_merge_car_actions: "Aufeinanderfolgende Auto-Ladeslots zusammenfassen", dq_good: "{v}% gut über {d} Tage" });
 
 function pickLang(hass, config) {
   const want = (config && config.language && config.language !== "auto")
@@ -1076,16 +1410,20 @@ const DEFAULT_CONFIG = {
   show_table: true,
   show_base: true,
   show_rates: true,
+  show_export_rate: false,
   show_data_quality: true,
   show_car: "auto",
   show_iboost: "auto",
   show_car_chart: true,
+  merge_car_actions: true,
   car_names: "",
   car_battery_size: "",
   show_solar: "auto",
   show_carbon: "auto",
   show_load_forecast: true,
   show_grid_pv: true,
+  next_include_hold: false,
+  show_pv_actual: true,
   show_inverters: "auto",
   inverter_names: "",
   inverter_power_invert: false,
@@ -2038,7 +2376,7 @@ details.dq[open] summary::after { transform: rotate(180deg); }
 .m-light.s-terminal { --pb-car: #1d5c63; --pb-car2: #5c3d7a; --pb-iboost: #9c3d12; }
 
 /* solar, load, carbon, inverters */
-ha-card { --pb-pv: #f2b705; --pb-load: color-mix(in srgb, var(--primary-text-color, #000) 72%, transparent); }
+ha-card { --pb-pv: #f2b705; --pb-pv-act: #12b886; --pb-load: color-mix(in srgb, var(--primary-text-color, #000) 72%, transparent); }
 ha-card.m-light { --pb-pv: #e0a500; }
 .s-neon { --pb-pv: #c6ff3d; --pb-load: #f0f0ff; }
 .m-light.s-neon { --pb-pv: #5f8f00; --pb-load: #15142c; }
@@ -2060,8 +2398,8 @@ ha-card.m-light { --pb-pv: #e0a500; }
 @container (min-width: 540px) { .inv-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @container (min-width: 1080px) { .inv-list { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 .inv { padding: 10px 12px; border-radius: calc(var(--pb-radius) - 4px); background: var(--pb-tile); min-width: 0; }
-.inv-top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
-.inv-name { font-weight: 600; font-size: calc(.86 * var(--u)); display: inline-flex; gap: 6px; align-items: center; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.inv-top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 2px 8px; }
+.inv-name { font-weight: 600; font-size: calc(.86 * var(--u)); display: inline-flex; gap: 6px; align-items: center; min-width: 0; max-width: 100%; overflow: hidden; white-space: nowrap; }
 .inv-name ha-icon { --mdc-icon-size: calc(1.05 * var(--u)); color: var(--pb-muted); }
 .inv-pct { font-weight: 700; font-size: calc(1.05 * var(--u)); font-variant-numeric: tabular-nums; white-space: nowrap; }
 .inv-pct small { font-weight: 500; font-size: .72em; color: var(--pb-muted); margin-left: 5px; }
@@ -2284,11 +2622,37 @@ ${esc(navigator.userAgent)}</pre></details>
     for (const r of raw.rows) {
       const d = parseTime(r.time);
       if (!d) continue;
+      // A split_time is authoritative for demand/hold-for-car -> export.
+      // A charge + export split without a time is *not* a 50/50 time split.
+      const reasons = Array.isArray(r.reasons) ? r.reasons : [];
+      const before = r.split === true ? reasons.find(x =>
+        /^(?:demand_before_export_(?:rising|falling|steady)|hold_for_car_before_export)$/.test(x?.code || "")
+      ) : null;
+      const clock = before?.params?.split_time;
+      let splitAt = null;
+      const preCat = before?.code === "hold_for_car_before_export" ? "hold_charge" : "demand";
+      if (typeof clock === "string" && /^([01]\d|2[0-3]):[0-5]\d$/.test(clock)) {
+        const minute = Number(clock.slice(0, 2)) * 60 + Number(clock.slice(3, 5));
+        const startClock = String(r.time).match(/[T ](\d{2}):(\d{2})/);
+        if (startClock) {
+          const startMinute = Number(startClock[1]) * 60 + Number(startClock[2]);
+          const delta = (minute - startMinute + 1440) % 1440;
+          if (delta > 0) splitAt = d.getTime() + delta * 60000;
+        }
+      }
+      const hasCharge = reasons.some(x =>
+        ["charge_low_rate", "freeze_charge", "hold_charge_at_target"].includes(x?.code));
+      const hasExport = reasons.some(x =>
+        ["export_high_rate", "freeze_export", "hold_export_unreachable"].includes(x?.code));
+      const mixedChargeExport = r.split === true && splitAt === null && hasCharge && hasExport;
       rows.push({
         t: d.getTime(),
         state: r.state || "Demand",
         cat: categorise(r.state),
         target: num(r.state_target),
+        splitAt,
+        preCat,
+        mixedChargeExport,
         override: r.state_override || "",
         imp: num(r.import_rate),
         exp: num(r.export_rate),
@@ -2306,15 +2670,18 @@ ${esc(navigator.userAgent)}</pre></details>
       });
     }
     rows.sort((a, b) => a.t - b.t);
-    // slot length
+    // Each ordinary row ends where the next one starts. Only the final
+    // row needs a guess; the maximum observed positive interval is used.
     let slot = 30 * 60e3;
-    if (rows.length > 1) {
-      const diffs = [];
-      for (let i = 1; i < Math.min(rows.length, 10); i++) diffs.push(rows[i].t - rows[i - 1].t);
-      diffs.sort((a, b) => a - b);
-      if (diffs[0] > 0) slot = diffs[0];
+    const diffs = [];
+    for (let i = 1; i < rows.length; i++) {
+      const diff = rows[i].t - rows[i - 1].t;
+      if (diff > 0) diffs.push(diff);
     }
-    rows.forEach((r, i) => { r.end = rows[i + 1] ? Math.min(rows[i + 1].t, r.t + slot * 4) : r.t + slot; });
+    if (diffs.length) slot = Math.max(...diffs);
+    rows.forEach((r, i) => {
+      r.end = rows[i + 1] ? rows[i + 1].t : r.t + slot;
+    });
     return { raw, rows, slot };
   }
 
@@ -2403,6 +2770,7 @@ ${esc(navigator.userAgent)}</pre></details>
     const horizon = now + Math.max(1, num(c.hours) || 24) * 3600e3;
     const rows = plan.rows.filter((r) => r.end > now && r.t < horizon);
     this._ctx = { plan, cur, socMax, now, horizon, rows };
+    try { this._pvActMaybeFetch(); } catch (e) { /* actual solar is optional */ }
 
     const status = this._st("status");
     let alerts = "";
@@ -2459,6 +2827,7 @@ ${esc(navigator.userAgent)}</pre></details>
     if (c.show_overview !== false) ["soc_now", "cost_today"].forEach((k) => need.add(k));
     if (c.show_timeline !== false || c.show_actions !== false || c.show_table !== false) need.add("plan");
     if (c.show_chart !== false) need.add("soc_best");
+    if (c.show_chart !== false && c.show_export_rate === true) need.add("rates_export");
     if (c.show_grid_chart !== false) ["export_energy", "import_energy"].forEach((k) => need.add(k));
     if (c.show_rates_chart !== false) need.add("rates");
     const missing = [...need].filter((k) => !this._st(k)).map((k) => this._eid(k));
@@ -2512,14 +2881,19 @@ ${esc(navigator.userAgent)}</pre></details>
     return { s: s.getTime(), e: e.getTime(), target: lim };
   }
 
-  _windowFromRows(kind) {
+  /** The next charge or export window in Predbat's plan. Hold and freeze slots only count
+   *  when next_include_hold is on: they keep the battery where it is rather than fill or empty it. */
+  _windowFromRows(kind, holds = this._config.next_include_hold === true) {
     const rows = this._ctx.plan.rows.filter((r) => r.end > this._ctx.now);
-    const match = kind === "charge" ? (r) => r.cat === "charge" : (r) => r.cat === "export";
+    const cats = kind === "charge"
+      ? (holds ? ["charge", "hold_charge", "freeze_charge"] : ["charge"])
+      : (holds ? ["export", "freeze_export", "hold_export"] : ["export"]);
+    const match = (r) => cats.includes(r.cat);
     const i = rows.findIndex(match);
     if (i < 0) return null;
     let j = i;
     while (j + 1 < rows.length && match(rows[j + 1]) && rows[j + 1].t <= rows[j].end) j++;
-    return { s: rows[i].t, e: rows[j].end, target: rows[j].target ?? rows[i].target };
+    return { s: rows[i].t, e: rows[j].end, target: rows[j].target ?? rows[i].target, cat: rows[i].cat };
   }
 
   _renderOverview() {
@@ -2601,7 +2975,9 @@ ${esc(navigator.userAgent)}</pre></details>
     }
 
     const winTile = (kind) => {
-      const w = this._windowFromEntities(kind) || this._windowFromRows(kind);
+      // Predbat's best_charge/best_export entities are its first window of any kind, freeze and hold
+      // included, so read the plan instead and only use the entities when there is no plan
+      const w = this._ctx.plan.rows.length ? this._windowFromRows(kind) : this._windowFromEntities(kind);
       const label = kind === "charge" ? t("next_charge") : t("next_export");
       const icon = kind === "charge" ? "mdi:battery-arrow-up" : "mdi:battery-arrow-down";
       if (!w) {
@@ -2613,7 +2989,7 @@ ${esc(navigator.userAgent)}</pre></details>
           <span class="accent-bar"></span>
           <div class="tile-label"><ha-icon icon="${icon}"></ha-icon>${esc(label)}</div>
           <div class="tile-value tv-lg">${esc(this._hm(w.s))}–${esc(this._hm(w.e))}</div>
-          <div class="tile-sub">${esc(active ? t("now") : this._dayWord(w.s))}${w.target !== null ? " · " + esc(t("target", { v: Math.round(w.target) })) : ""}</div>
+          <div class="tile-sub">${esc(active ? t("now") : this._dayWord(w.s))}${w.cat && w.cat !== kind ? " · " + esc(t("st_" + w.cat)) : w.target !== null ? " · " + esc(t("target", { v: Math.round(w.target) })) : ""}</div>
         </div>`;
     };
 
@@ -2775,6 +3151,8 @@ ${esc(navigator.userAgent)}</pre></details>
         kwh: num(w.kwh) || 0, avg: num(w.average), cost: num(w.cost),
         cancelled: num(w.kwh_cancelled) || 0,
       })).filter((w) => w.s !== null && w.e !== null && w.e > now).sort((a, b) => a.s - b.s);
+      // Predbat lists the car plan one 30-minute slot at a time: join back-to-back slots into one charge
+      if (this._config.merge_car_actions !== false) windows = this._mergeCarWindows(windows);
       // fallback 1: Predbat's plan table car column (one car only, it is a total)
       if (!windows.length && n === 1 && this._ctx?.rows?.some((r) => (r.carKwh || 0) > 0.001)) {
         let w = null;
@@ -2857,6 +3235,32 @@ ${esc(navigator.userAgent)}</pre></details>
     }
     this._carsCache = { at: this._ctx, list };
     return list;
+  }
+
+  /** Join car windows where one ends as the next starts: kWh, cost and cancelled kWh add up,
+   *  and the price becomes the kWh-weighted average. */
+  _mergeCarWindows(list) {
+    const out = [];
+    for (const w of list) {
+      const g = out[out.length - 1];
+      if (g && Math.abs(w.s - g.e) < 60e3) {
+        const kw = g.kwh + w.kwh;
+        if (g.avg !== null || w.avg !== null) {
+          const wa = g.kwh > 0 || w.kwh > 0
+            ? ((g.avg ?? w.avg) * g.kwh + (w.avg ?? g.avg) * w.kwh) / kw
+            : ((g.avg ?? w.avg) + (w.avg ?? g.avg)) / 2;
+          g.avg = wa;
+        }
+        g.cost = g.cost === null && w.cost === null ? null : (g.cost || 0) + (w.cost || 0);
+        g.kwh = kw;
+        g.cancelled = (g.cancelled || 0) + (w.cancelled || 0);
+        g.e = Math.max(g.e, w.e);
+        g.slots = (g.slots || 1) + 1;
+        continue;
+      }
+      out.push({ ...w });
+    }
+    return out;
   }
 
   /** Car settings that apply to all cars, for the Car tab. */
@@ -3538,7 +3942,18 @@ ${esc(navigator.userAgent)}</pre></details>
     const main = (p) => (d.calibrated && p.cl !== null ? p.cl : p.v);
     const mid = (p) => p.t + p.len / 2;
     const pts = d.pts.filter((p) => p.t + p.len > f.now && p.t < f.horizon);
-    const maxV = Math.max(0.5, ...pts.map((p) => Math.max(main(p), p.v, p.v90 ?? 0, p.v10 ?? 0))) * 1.12;
+    // actual generation so far today, per forecast slot (kW average over the part that has passed)
+    const nowMs = Date.now();
+    const act = new Map();
+    if (d.i === 0 && !fromPlan && this._config.show_pv_actual !== false) {
+      for (const p of pts) {
+        const b = Math.min(p.t + p.len, nowMs);
+        if (b <= p.t + 60e3) continue;
+        const kwh = this._pvActKwh(p.t, b);
+        if (kwh !== null) act.set(p, { kwh, kw: kwh / ((b - p.t) / 3600e3), end: b });
+      }
+    }
+    const maxV = Math.max(0.5, ...pts.map((p) => Math.max(main(p), p.v, p.v90 ?? 0, p.v10 ?? 0, act.get(p)?.kw ?? 0))) * 1.12;
     const step = this._niceStep(maxV / 1.12);
     const Y = (v) => padT + (1 - Math.max(0, v) / maxV) * ih;
     const parts = [];
@@ -3553,6 +3968,11 @@ ${esc(navigator.userAgent)}</pre></details>
       parts.push(`<rect x="${padL}" y="${padT}" width="${(X(now) - padL).toFixed(1)}" height="${ih}" fill="var(--pb-line)" opacity=".55"/>`);
       parts.push(`<line x1="${X(now).toFixed(1)}" x2="${X(now).toFixed(1)}" y1="${padT}" y2="${padT + ih}" stroke="var(--pb-muted)" stroke-width="1" stroke-dasharray="3 3"/>`);
       parts.push(`<text class="axis" x="${(X(now) + 4).toFixed(1)}" y="${padT + 11}">${esc(t("now"))}</text>`);
+    }
+    for (const [p, a] of act) {
+      const x1 = X(p.t) + 0.6, x2 = X(a.end) - 0.6;
+      if (x2 - x1 < 0.5 || a.kw < 0.005) continue;
+      parts.push(`<rect class="bar-pv-act" x="${x1.toFixed(1)}" y="${Y(a.kw).toFixed(1)}" width="${(x2 - x1).toFixed(1)}" height="${(Y(0) - Y(a.kw)).toFixed(1)}" rx="1.5" fill="var(--pb-pv-act)" opacity=".7"/>`);
     }
     if (pts.length) {
       const xs = pts.map((p) => X(mid(p)).toFixed(1));
@@ -3589,6 +4009,20 @@ ${esc(navigator.userAgent)}</pre></details>
     if (d.total !== null) stats.push(`<span><i class="line" style="--c:var(--pb-pv)"></i>${esc(t("pv_forecast"))} <b>${k(d.total)} kWh</b></span>`);
     if (d.total10 !== null && d.total90 !== null) stats.push(`<span><i style="--c:color-mix(in srgb, var(--pb-pv) 35%, transparent)"></i>10–90% <b>${k(d.total10)}–${k(d.total90)} kWh</b></span>`);
     if (d.left !== null && (d.i === 0 || fromPlan)) stats.push(`<span>${esc(fromPlan ? t("pv_in_plan") : t("pv_left_today"))} <b>${k(d.left)} kWh</b>${d.left10 !== null && d.left90 !== null && !fromPlan ? ` <span class="muted">(${k(d.left10)}–${k(d.left90)})</span>` : ""}</span>`);
+    if (act.size) {
+      // compare with what the forecast expected for the same time
+      let actual = 0, expected = 0;
+      for (const p of pts) {
+        const b = Math.min(p.t + p.len, nowMs);
+        if (b <= p.t) continue;
+        expected += (main(p) * (b - p.t)) / 3600e3;
+        actual += act.get(p)?.kwh || 0;
+      }
+      const pc = expected > 0.05 ? Math.round((actual / expected) * 100) : null;
+      stats.push(`<span><i style="--c:var(--pb-pv-act)"></i>${esc(t("pv_actual"))} <b>${k(actual)} kWh</b> <span class="muted">${esc(t("pv_vs_forecast", { v: k(expected) }))}${pc !== null ? ` (${pc}%)` : ""}</span></span>`);
+    } else if (d.i === 0 && !fromPlan && this._config.show_pv_actual !== false && this._pvAct && !this._pvAct.series.length && this._pvAct.at) {
+      stats.push(`<span class="muted">${esc(t("pv_actual_none", { e: this._pvActSources().ids.join(", ") }))}</span>`);
+    }
     if (d.calibrated) stats.push(`<span class="muted"><i class="dash" style="--c:var(--pb-muted)"></i>${esc(t("pv_raw", { v: k(d.raw) }))}</span>`);
     if (fromPlan && d.left10 !== null) stats.push(`<span><i style="--c:color-mix(in srgb, var(--pb-pv) 35%, transparent)"></i>10% <b>${k(d.left10)} kWh</b></span>`);
     if (fromPlan) stats.push(`<span class="muted">${esc(t("pv_from_plan"))}</span>`);
@@ -3604,6 +4038,8 @@ ${esc(navigator.userAgent)}</pre></details>
           `<div class="row"><span>${esc(t("pv_forecast"))}</span><b>${main(p).toFixed(2)} kW</b></div>`];
         if (p.v10 !== null || p.v90 !== null) lines.push(`<div class="row muted"><span>10–90%</span><span>${p.v10 !== null ? p.v10.toFixed(2) : "–"}–${p.v90 !== null ? p.v90.toFixed(2) : "–"} kW</span></div>`);
         if (d.calibrated) lines.push(`<div class="row muted"><span>${esc(t("pv_raw_short"))}</span><span>${p.v.toFixed(2)} kW</span></div>`);
+        const a = act.get(p);
+        if (a) lines.push(`<div class="row"><span class="tag"><i style="--c:var(--pb-pv-act)"></i>${esc(t("pv_actual"))}</span><b>${a.kw.toFixed(2)} kW</b></div>`);
         return { x: X(mid(p)), y: Y(main(p)), html: lines.join(""), color: "var(--pb-pv)" };
       },
     };
@@ -3616,6 +4052,94 @@ ${esc(navigator.userAgent)}</pre></details>
       }));
     };
     return { H, svg: parts.join(""), legend, wire };
+  }
+
+  /* ---------- actual solar (for the Solar chart) ---------- */
+  /** Sensors to read today's generation from: yours, else Predbat's PV power, else your inverters' PV power. */
+  _pvActSources() {
+    const set = idList(this._config.entities?.pv_actual);
+    if (set.length) return { ids: set, alt: [], auto: false };
+    const alt = this._invSrc().list.map((x) => x.pv).filter(Boolean);
+    return { ids: [this._eid("pv_power")], alt, auto: true };
+  }
+
+  _pvActWanted() {
+    return this._config.show_pv_actual !== false && this._hass && typeof this._hass.callWS === "function" &&
+      this._enabledCharts().includes("solar") && this._pvDays().some((d) => d.i === 0 && d.source === "sensor");
+  }
+
+  /** Read today's history once every 5 minutes. */
+  _pvActMaybeFetch() {
+    if (!this._pvActWanted()) return;
+    const src = this._pvActSources();
+    const all = [...src.ids, ...src.alt].filter((id, i, a) => this._hass.states[id] && a.indexOf(id) === i);
+    const d0 = new Date(); d0.setHours(0, 0, 0, 0);
+    const key = `${all.join(",")}|${d0.getTime()}`;
+    if (this._pvActBusy || (this._pvAct && this._pvAct.key === key && Date.now() - this._pvAct.at < 5 * 60e3)) return;
+    if (!all.length) { this._pvAct = { key, at: Date.now(), series: [], used: [], missing: src.ids }; return; }
+    this._pvActBusy = true;
+    const end = Date.now();
+    Promise.resolve()
+      .then(() => this._hass.callWS({
+        type: "history/history_during_period",
+        start_time: new Date(d0.getTime()).toISOString(),
+        end_time: new Date(end).toISOString(),
+        entity_ids: all,
+        minimal_response: true,
+        no_attributes: true,
+        significant_changes_only: true,
+        include_start_time_state: true,
+      }))
+      .then((res) => {
+        const read = (id) => {
+          const u = String(this._hass.states[id]?.attributes?.unit_of_measurement || "").toLowerCase();
+          const energy = u === "kwh" || u === "wh" || u === "mwh";
+          const k = energy ? (u === "wh" ? 0.001 : u === "mwh" ? 1000 : 1) : (u === "w" ? 0.001 : u === "mw" ? 1000 : 1);
+          const pts = historySeries(res && res[id]).map(([tm, v]) => [tm, v === null ? null : v * k]);
+          return pts.filter((p) => p[1] !== null).length >= 2 ? { id, energy, pts } : null;
+        };
+        let series = src.ids.map(read).filter(Boolean);
+        // Predbat's PV power isn't recorded? use the inverters' own PV power instead
+        if (!series.length && src.alt.length) series = src.alt.map(read).filter(Boolean);
+        this._pvAct = { key, at: Date.now(), series, used: series.map((x) => x.id), missing: [] };
+      })
+      .catch((err) => { this._pvAct = { key, at: Date.now() - 4 * 60e3, series: [], used: [], error: String(err?.message || err) }; })
+      .finally(() => { this._pvActBusy = false; this._pvActVer = (this._pvActVer || 0) + 1; this._chartSig = ""; this._safeRender(); });
+  }
+
+  /** Actual solar in kWh between a and b (b no later than now), from power or energy sensors. */
+  _pvActKwh(a, b) {
+    const act = this._pvAct;
+    if (!act || !act.series.length || b <= a) return null;
+    let total = 0, any = false;
+    for (const s of act.series) {
+      const pts = s.pts;
+      if (s.energy) {
+        // a daily total: what it went up by (a drop is a reset, so count from zero again)
+        let prev = null, sum = 0, seen = false;
+        for (const [tm, v] of pts) {
+          if (v === null) continue;
+          if (tm <= a) { prev = v; continue; }
+          if (tm > b) break;
+          if (prev !== null) { sum += v >= prev ? v - prev : v; seen = true; }
+          prev = v;
+        }
+        if (seen) { total += sum; any = true; }
+      } else {
+        // power: the area under the line, holding each reading until the next one
+        let sum = 0, seen = false;
+        for (let i = 0; i < pts.length; i++) {
+          const [tm, v] = pts[i];
+          const next = i + 1 < pts.length ? pts[i + 1][0] : Date.now();
+          const from = Math.max(a, tm), to = Math.min(b, next);
+          if (to <= from || v === null) continue;
+          sum += (Math.max(0, v) * (to - from)) / 3600e3;
+          seen = true;
+        }
+        if (seen) { total += sum; any = true; }
+      }
+    }
+    return any ? total : null;
   }
 
   /* ---------- carbon ---------- */
@@ -3895,7 +4419,7 @@ ${esc(navigator.userAgent)}</pre></details>
     const own = CAR_OWN_KEYS.map((k) => this._carOwn(k, 0)).filter(Boolean).map((id) => this._hass.states[id]?.state).join(",");
     const solcast = SOLCAST_DAYS.map((id) => this._hass.states[id]?.last_updated || "-").join(",");
     const sig = keys.map((k) => this._st(k)?.last_updated || "-").join("|") +
-      `|${this._chartWidth}|${Math.floor(Date.now() / 60000)}|${this._tab}|${this._scale()}|dq${this._dqVer || 0}|${own}|${solcast}|${this._pvDay || 0}`;
+      `|${this._chartWidth}|${Math.floor(Date.now() / 60000)}|${this._tab}|${this._scale()}|rates${this._config.show_rates}|exportRates${this._config.show_export_rate}|dq${this._dqVer || 0}|${own}|${solcast}|${this._pvDay || 0}|pa${this._pvActVer || 0}`;
     if (!force && sig === this._chartSig) return;
     this._chartSig = sig;
     this.shadowRoot.querySelectorAll(".chart[data-chart]").forEach((el) => {
@@ -3948,13 +4472,24 @@ ${esc(navigator.userAgent)}</pre></details>
   }
 
   _planBands(f, parts, opacity = 0.16) {
-    for (const r of this._ctx.rows) {
+    const hatchId = `pb-mixed-${this._hatchId = (this._hatchId || 0) + 1}`;
+    parts.push(`<defs>
+      <pattern id="${hatchId}" width="12" height="12"
+              patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+        <rect width="12" height="12" fill="var(--pb-charge)"/>
+        <rect width="6" height="12" fill="var(--pb-export)"/>
+      </pattern>
+    </defs>`);
+
+    for (const r of this._stateRows()) {
       if (r.cat === "demand") continue;
       const x1 = f.X(r.t), x2 = f.X(r.end);
       if (x2 - x1 < 0.5) continue;
-      const col = `var(--pb-${r.cat})`;
+      const col = r.mixedChargeExport
+        ? `url(#${hatchId})`
+        : `var(--pb-${r.cat})`;
       parts.push(`<rect class="band" x="${x1.toFixed(1)}" y="${f.padT}" width="${(x2 - x1).toFixed(1)}" height="${f.ih}" fill="${col}" opacity="${opacity}"/>`);
-      parts.push(`<rect x="${x1.toFixed(1)}" y="${f.padT + f.ih - 3}" width="${(x2 - x1).toFixed(1)}" height="3" fill="${col}" opacity=".9"/>`);
+      parts.push(`<rect x="${x1.toFixed(1)}" y="${(f.padT + f.ih - 3).toFixed(1)}" width="${(x2 - x1).toFixed(1)}" height="3" fill="${col}" opacity=".9"/>`);
     }
   }
 
@@ -3986,14 +4521,14 @@ ${esc(navigator.userAgent)}</pre></details>
     return d;
   }
 
-  _rowAt(tm) { return this._ctx.rows.find((r) => r.t <= tm && r.end > tm) || null; }
+  _rowAt(tm) { return this._stateRows().find((r) => r.t <= tm && r.end > tm) || null; }
 
   _tipHead(tm) { return `<div><b>${esc(this._dayWord(tm))} ${esc(this._hm(tm))}</b></div>`; }
 
   _tipState(row) {
     if (!row) return "";
     const t = this.t;
-    return `<div class="row"><span class="tag"><i style="--c:var(--pb-${row.cat === "demand" ? "neutral" : row.cat})"></i>${esc(t("st_" + row.cat))}</span><span>${row.target !== null && row.cat !== "demand" ? Math.round(row.target) + "%" : ""}</span></div>`;
+    return `<div class="row"><span class="tag"><i style="--c:var(--pb-${row.cat === "demand" ? "neutral" : row.cat})"></i>${esc(row.mixedChargeExport ? t("st_mixed_charge_export") : row.holdForCar ? t("st_hold_for_car") : t("st_" + row.cat))}</span><span>${!row.mixedChargeExport && row.target !== null && row.cat !== "demand" ? Math.round(row.target) + "%" : ""}</span></div>`;
   }
 
   /* Battery SoC forecast */
@@ -4002,23 +4537,26 @@ ${esc(navigator.userAgent)}</pre></details>
     const c = this._config;
     const { socMax, now, horizon, cur } = this._ctx;
     const showRates = c.show_rates !== false;
+    const showExportRate = c.show_export_rate === true;
     const H = Math.round(190 + (this._scale() - 1) * 50);
-    const f = this._frame(W, H, { padL: 34, padR: showRates ? 40 : 10 });
+    const f = this._frame(W, H, { padL: 34, padR: showRates || showExportRate ? 40 : 10 });
     const { X, padL, padT, iw, ih } = f;
 
     const inWin = (s) => s.filter((p) => p[0] >= now - 10 * 60e3 && p[0] <= horizon);
     const best = inWin(seriesFrom(this._st("soc_best")?.attributes?.results));
     const base = c.show_base !== false ? inWin(seriesFrom(this._st("soc_base")?.attributes?.results)) : [];
     const rates = showRates ? this._windowSeries(seriesFrom(this._st("rates")?.attributes?.results)) : [];
+    const exportRates = showExportRate ? this._windowSeries(seriesFrom(this._st("rates_export")?.attributes?.results)) : [];
     if (!best.length) return { empty: t("no_forecast", { e: this._eid("soc_best") }) };
 
     const maxK = socMax || Math.max(...best.map((p) => p[1]), ...base.map((p) => p[1]), 1);
     const toPct = (k) => Math.max(0, Math.min(100, (k / maxK) * 100));
     const Y = (p) => padT + (1 - p / 100) * ih;
+    const allRates = [...rates, ...exportRates].map((p) => p[1]);
     let rMin = 0, rMax = 1;
-    if (rates.length) {
-      rMin = Math.min(0, ...rates.map((p) => p[1]));
-      rMax = Math.max(...rates.map((p) => p[1])) * 1.1 || 1;
+    if (allRates.length) {
+      rMin = Math.min(0, ...allRates);
+      rMax = Math.max(1, ...allRates) * 1.1;
     }
     const YR = (r) => padT + (1 - (r - rMin) / (rMax - rMin)) * ih;
 
@@ -4037,8 +4575,14 @@ ${esc(navigator.userAgent)}</pre></details>
     this._xAxis(f, parts);
     if (rates.length) {
       parts.push(`<path d="${this._stepPath(f, rates, YR)}" fill="none" stroke="var(--pb-rate)" stroke-width="1.4" opacity=".75" class="l-rate"/>`);
+    }
+    if (exportRates.length) {
+      parts.push(`<path d="${this._stepPath(f, exportRates, YR)}" fill="none" stroke="var(--pb-export)" stroke-width="1.6" opacity=".9" class="l-exp"/>`);
+    }
+    if (allRates.length) {
+      const axisColor = rates.length ? "var(--pb-rate)" : "var(--pb-export)";
       for (const r of [rMax / 1.1, (rMax / 1.1 + rMin) / 2, rMin]) {
-        parts.push(`<text class="axis" x="${padL + iw + 5}" y="${(YR(r) + 4).toFixed(1)}" style="fill:var(--pb-rate)">${esc(Math.round(r) + cur.minor)}</text>`);
+        parts.push(`<text class="axis" x="${padL + iw + 5}" y="${(YR(r) + 4).toFixed(1)}" style="fill:${axisColor}">${esc(Math.round(r) + cur.minor)}</text>`);
       }
     }
     if (base.length > 1) {
@@ -4062,6 +4606,7 @@ ${esc(navigator.userAgent)}</pre></details>
       `<span><i class="line" style="--c:var(--pb-accent)"></i>${esc(t("best"))}</span>`,
       base.length ? `<span><i class="dash" style="--c:var(--pb-muted)"></i>${esc(t("base"))}</span>` : "",
       rates.length ? `<span><i class="line" style="--c:var(--pb-rate)"></i>${esc(t("rate"))}</span>` : "",
+      exportRates.length ? `<span><i class="line" style="--c:var(--pb-export)"></i>${esc(t("export_rate"))}</span>` : "",
       `<span><i style="--c:color-mix(in srgb, var(--pb-charge) 45%, transparent)"></i>${esc(t("st_charge"))}</span>`,
       `<span><i style="--c:color-mix(in srgb, var(--pb-export) 45%, transparent)"></i>${esc(t("st_export"))}</span>`,
     ].join("");
@@ -4073,12 +4618,14 @@ ${esc(navigator.userAgent)}</pre></details>
         if (!b) return null;
         const bs = nearest(base, b[0]);
         const rate = stepAt(rates, b[0]);
+        const exportRate = stepAt(exportRates, b[0]);
         const lines = [
           this._tipHead(b[0]),
           `<div class="row"><span>${esc(t("best"))}</span><b>${Math.round(toPct(b[1]))}% · ${b[1].toFixed(1)} kWh</b></div>`,
         ];
         if (bs) lines.push(`<div class="row muted"><span>${esc(t("base"))}</span><span>${Math.round(toPct(bs[1]))}%</span></div>`);
         if (rate !== null) lines.push(`<div class="row"><span>${esc(t("import"))}</span><span>${esc(this._rate(rate, cur))}</span></div>`);
+        if (exportRate !== null) lines.push(`<div class="row"><span>${esc(t("export_rate"))}</span><span>${esc(this._rate(exportRate, cur))}</span></div>`);
         lines.push(this._tipState(this._rowAt(b[0])));
         return { x: X(b[0]), y: Y(toPct(b[1])), html: lines.join(""), color: "var(--pb-accent)" };
       },
@@ -4288,7 +4835,8 @@ ${esc(navigator.userAgent)}</pre></details>
 
   _renderTimeline() {
     const t = this.t;
-    const { rows, now, horizon } = this._ctx;
+    const { now, horizon } = this._ctx;
+    const rows = this._stateRows();
     if (!rows.length) {
       return `<div class="section"><div class="section-head"><div class="section-title">${esc(t("plan"))}</div></div>
         <div class="warn">${esc(t("no_plan", { e: this._eid("plan") }))}</div></div>`;
@@ -4300,17 +4848,20 @@ ${esc(navigator.userAgent)}</pre></details>
     for (const r of rows) {
       const s = Math.max(r.t, now), e = Math.min(r.end, horizon);
       if (e <= s) continue;
-      const key = r.cat + "|" + (r.target ?? "");
+      const key = r.cat + "|" + (r.target ?? "") + "|" + (r.mixedChargeExport ? "mixed" : r.holdForCar ? "carhold" : "");
       if (cur && cur.key === key && Math.abs(cur.e - s) < 1000) { cur.e = e; continue; }
       if (cur) cells.push(cur);
-      cur = { key, cat: r.cat, target: r.target, s, e };
+      cur = { key, cat: r.cat, target: r.target, mixed: !!r.mixedChargeExport, holdForCar: !!r.holdForCar, s, e };
     }
     if (cur) cells.push(cur);
     const used = cells.reduce((a, c) => a + (c.e - c.s), 0);
     const html = cells.map((c) => {
       const w = ((c.e - c.s) / span) * 100;
-      const title = `${this._hm(c.s)}–${this._hm(c.e)} · ${t("st_" + c.cat)}${c.target !== null && c.cat !== "demand" ? " " + Math.round(c.target) + "%" : ""}`;
-      return `<div style="width:${w.toFixed(3)}%;--c:var(--pb-${c.cat})" title="${esc(title)}"></div>`;
+      const label = c.mixed ? t("st_mixed_charge_export_untimed") : c.holdForCar ? t("st_hold_for_car") : t("st_" + c.cat);
+      const title = `${this._hm(c.s)}–${this._hm(c.e)} · ${label}${!c.mixed && !c.holdForCar && c.target !== null && c.cat !== "demand" ? " " + Math.round(c.target) + "%" : ""}`;
+      // Diagonal stripes indicate a mixed slot, NOT a change at its midpoint.
+      const bg = c.mixed ? "background:repeating-linear-gradient(135deg,var(--pb-charge) 0px,var(--pb-charge) 5px,var(--pb-export) 5px,var(--pb-export) 10px);" : "";
+      return `<div style="width:${w.toFixed(3)}%;--c:var(--pb-${c.cat});${bg}" title="${esc(title)}"></div>`;
     }).join("") + (used < span ? `<div style="flex:1;--c:transparent"></div>` : "");
 
     const ticks = [];
@@ -4340,24 +4891,40 @@ ${esc(navigator.userAgent)}</pre></details>
         <div class="ribbon">${html}</div>
         ${lanes.html}
         <div class="ticks">${ticks.join("")}</div>
-        <div class="legend">${legend}${lanes.legend}</div>
+        <div class="legend">${legend}${cells.some(c => c.mixed) ? `<span><i style="--c:var(--pb-export);background:repeating-linear-gradient(135deg,var(--pb-charge) 0px,var(--pb-charge) 5px,var(--pb-export) 5px,var(--pb-export) 10px)"></i>${esc(t("st_mixed_charge_export"))}</span>` : ""}${lanes.legend}</div>
       </div>`;
   }
 
+  _stateRows() {
+    return this._ctx.rows.flatMap(r => {
+      if (!(r.splitAt > r.t && r.splitAt < r.end)) return [r];
+      return [
+        { ...r,
+          cat: r.preCat,
+          state: r.preCat === "hold_charge" ? "HoldChrg" : "Demand",
+          target: null,
+          mixedChargeExport: false,
+          holdForCar: r.preCat === "hold_charge",
+          end: r.splitAt,
+          sourceRow: r },
+        { ...r, t: r.splitAt, sourceRow: r }
+      ];
+    });
+  }
   _groups() {
-    const { rows } = this._ctx;
+    const rows = this._stateRows();
     const groups = [];
     let g = null;
     for (const r of rows) {
       if (r.cat === "demand") { if (g) { groups.push(g); g = null; } continue; }
       const key = r.cat;
-      if (g && g.cat === key && Math.abs(g.e - r.t) < 1000) {
+      if (g && g.cat === key && g.mixed === !!r.mixedChargeExport && g.holdForCar === !!r.holdForCar && Math.abs(g.e - r.t) < 1000) {
         g.e = r.end; g.rows.push(r);
         if (r.target !== null) g.target = r.target;
         continue;
       }
       if (g) groups.push(g);
-      g = { cat: key, s: r.t, e: r.end, target: r.target, rows: [r], override: !!r.override };
+      g = { cat: key, s: r.t, e: r.end, target: r.target, rows: [r], override: !!r.override, mixed: !!r.mixedChargeExport, holdForCar: !!r.holdForCar };
     }
     if (g) groups.push(g);
     return groups;
@@ -4377,19 +4944,19 @@ ${esc(navigator.userAgent)}</pre></details>
       body = groups.map((g) => {
         if (g.kind) return this._renderExtraAction(g);
         const isExp = /export/.test(g.cat);
-        const rates = g.rows.map((r) => (isExp ? r.exp : r.imp)).filter((v) => v !== null);
+        const rates = g.mixed ? [] : g.rows.map((r) => (isExp ? r.exp : r.imp)).filter((v) => v !== null);
         const avg = rates.length ? rates.reduce((a, b) => a + b, 0) / rates.length : null;
         const last = g.rows[g.rows.length - 1];
         const endSoc = (() => {
-          const idx = rows.indexOf(last);
+          const idx = rows.indexOf(last.sourceRow || last);
           const nxt = rows[idx + 1];
           return nxt && nxt.soc !== null ? nxt.soc : last.soc;
         })();
-        const what = t("st_" + g.cat) + (g.target !== null && !/hold/.test(g.cat) ? " " + t("target", { v: Math.round(g.target) }) : "");
+        const what = g.mixed ? t("st_mixed_charge_export_action") : g.holdForCar ? t("st_hold_for_car") : t("st_" + g.cat) + (g.target !== null && !/hold/.test(g.cat) ? " " + t("target", { v: Math.round(g.target) }) : "");
         const dur = Math.round((g.e - g.s) / 60000);
         const durTxt = dur >= 60 ? `${Math.floor(dur / 60)}h${dur % 60 ? " " + (dur % 60) + "m" : ""}` : `${dur}m`;
         return `<div class="action" style="--c:var(--pb-${g.cat})">
-            <div class="ico"><ha-icon icon="${STATE_ICON[g.cat]}"></ha-icon></div>
+            <div class="ico"><ha-icon icon="${g.mixed ? "mdi:battery-sync" : STATE_ICON[g.cat]}"></ha-icon></div>
             <div style="min-width:0">
               <div class="what">${esc(what)}${g.override ? ` <span class="muted" style="font-weight:500">· ${esc(t("manual"))}</span>` : ""}</div>
               <div class="when">${esc(g.s <= Date.now() ? t("now") : this._dayWord(g.s))} ${esc(this._hm(g.s))}–${esc(this._hm(g.e))} · ${esc(durTxt)}</div>
@@ -4414,7 +4981,7 @@ ${esc(navigator.userAgent)}</pre></details>
     const ibCol = this._iboostShown() && rows.some((r) => r.iboostKwh !== null);
     const body = rows.map((r) => `<tr>
         <td>${esc(this._hm(r.t))}</td>
-        <td><span class="tag"><i style="--c:var(--pb-${r.cat === "demand" ? "neutral" : r.cat})"></i>${esc(t("st_" + r.cat))}${r.target !== null && r.cat !== "demand" ? " " + Math.round(r.target) + "%" : ""}</span></td>
+        <td><span class="tag"><i style="--c:var(--pb-${r.cat === "demand" ? "neutral" : r.cat})"></i>${esc(r.mixedChargeExport ? t("st_mixed_charge_export") : t("st_" + r.cat))}${!r.mixedChargeExport && r.target !== null && r.cat !== "demand" ? " " + Math.round(r.target) + "%" : ""}</span></td>
         <td>${esc(this._rate(r.imp, cur))}</td>
         <td>${esc(this._rate(r.exp, cur))}</td>
         <td>${f(r.pv)}</td>
@@ -4503,7 +5070,7 @@ class PredbatCardEditor extends HTMLElement {
   _data() {
     const c = { ...DEFAULT_CONFIG, ...this._config };
     c.entities = { ...defaultEntities(c.prefix), ...(this._config.entities || {}) };
-    for (const k of ["load_today", "load_power", ...CAR_OWN_KEYS, ...INV_OWN_KEYS]) {
+    for (const k of ["load_today", "load_power", "pv_actual", ...CAR_OWN_KEYS, ...INV_OWN_KEYS]) {
       const v = c.entities[k];
       c.entities[k] = Array.isArray(v) ? v : typeof v === "string" && v ? v.split(",").map((x) => x.trim()).filter(Boolean) : [];
     }
@@ -4527,7 +5094,7 @@ class PredbatCardEditor extends HTMLElement {
         grid(select("style", STYLE_NAMES, "style_"), select("theme_mode", ["auto", "light", "dark"], "mode_")),
         grid({ name: "title", selector: { text: {} } }, select("language", [
           { value: "auto", label: t("ed_auto") }, { value: "en", label: "English" },
-          { value: "pl", label: "Polski" }, { value: "es", label: "Español" },
+          { value: "pl", label: "Polski" }, { value: "es", label: "Español" },{ value: "de", label: "Deutsch" },
         ])),
         { name: "font_scale", selector: { number: { min: 0.8, max: 1.6, step: 0.05, mode: "slider" } } },
       ], true),
@@ -4537,13 +5104,14 @@ class PredbatCardEditor extends HTMLElement {
       ]),
       section(t("sec_charts"), "mdi:chart-line", [
         grid(bool("show_chart"), bool("show_grid_chart"), bool("show_rates_chart"), bool("show_car_chart"), bool("show_base"), bool("show_rates"),
-          bool("show_load_forecast"), bool("show_grid_pv")),
+          bool("show_export_rate"), bool("show_load_forecast"), bool("show_grid_pv")),
         grid(select("chart_layout", ["tabs", "stacked"], "layout_"),
           { name: "hours", selector: { number: { min: 4, max: 48, step: 1, mode: "box", unit_of_measurement: "h" } } }),
       ]),
       section(t("sec_car"), "mdi:car-electric", [
         grid(select("show_car", ["auto", "on", "off"], "show_"), select("show_iboost", ["auto", "on", "off"], "show_")),
         grid({ name: "car_names", selector: { text: {} } }, { name: "car_battery_size", selector: { text: {} } }),
+        bool("merge_car_actions"),
         {
           type: "expandable", name: "entities", title: t("ed_car_sensors"), icon: "mdi:car-cog",
           schema: CAR_OWN_KEYS.map((k) => ({ name: k, selector: { entity: { multiple: true } } })),
@@ -4551,8 +5119,13 @@ class PredbatCardEditor extends HTMLElement {
       ]),
       section(t("sec_inverters"), "mdi:solar-power-variant", [
         grid(select("show_solar", ["auto", "on", "off"], "show_"), select("show_carbon", ["auto", "on", "off"], "show_")),
+        grid(bool("show_pv_actual"), bool("next_include_hold")),
         grid(select("show_inverters", ["auto", "on", "off"], "show_"), bool("inverter_power_invert")),
         { name: "inverter_names", selector: { text: {} } },
+        {
+          type: "expandable", name: "entities", title: t("ed_pv_sensors"), icon: "mdi:solar-power",
+          schema: [{ name: "pv_actual", selector: { entity: { multiple: true, filter: { domain: "sensor" } } } }],
+        },
         {
           type: "expandable", name: "entities", title: t("ed_inv_sensors"), icon: "mdi:home-battery-outline",
           schema: INV_OWN_KEYS.map((k) => ({ name: k, selector: { entity: { multiple: true,
@@ -4589,7 +5162,7 @@ class PredbatCardEditor extends HTMLElement {
       style: "ed_style", theme_mode: "ed_theme_mode", title: "ed_title", prefix: "ed_prefix", language: "ed_language",
       show_header: "ed_show_header", show_overview: "ed_show_overview", show_chart: "ed_show_chart", show_grid_chart: "ed_show_grid_chart", show_rates_chart: "ed_show_rates_chart", chart_layout: "ed_chart_layout", show_data_quality: "ed_show_data_quality", show_car: "ed_show_car", show_iboost: "ed_show_iboost", show_car_chart: "ed_show_car_chart", car_names: "ed_car_names", car_battery_size: "ed_car_battery_size", car_soc_sensor: "e_car_soc_sensor", car_limit_sensor: "e_car_limit_sensor", car_plugged_sensor: "e_car_plugged_sensor", car_charging_sensor: "e_car_charging_sensor", car_start: "e_car_start", car_power: "e_car_power", car_cost_today: "e_car_cost_today", car_cost_yesterday: "e_car_cost_yesterday", car_manual_soc: "e_car_manual_soc", car_manual_soc_kwh: "e_car_manual_soc_kwh", car_rate: "e_car_rate", car_plan_smart: "e_car_plan_smart", car_max_price: "e_car_max_price", car_from_battery: "e_car_from_battery", octopus_intelligent: "e_octopus_intelligent", data_quality_days: "ed_dq_days", data_quality_minutes: "ed_dq_minutes", font_scale: "ed_font_scale",
       show_timeline: "ed_show_timeline", show_actions: "ed_show_actions", show_table: "ed_show_table",
-      show_base: "ed_show_base", show_rates: "ed_show_rates", hours: "ed_hours", max_actions: "ed_max_actions",
+      show_base: "ed_show_base", show_rates: "ed_show_rates", show_export_rate: "ed_show_export_rate", hours: "ed_hours", max_actions: "ed_max_actions",
       battery_capacity: "ed_capacity",
       status: "e_status", plan: "e_plan", mode: "e_mode", soc_now: "e_soc_now", soc_best: "e_soc_best",
       soc_base: "e_soc_base", inverter_config: "e_inverter_config", hours_left: "e_hours_left", rates: "e_rates",
